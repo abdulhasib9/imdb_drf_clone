@@ -35,6 +35,10 @@ class StreamPlatformDetailAV(APIView):
         else:
             return Response(serializer.errors)
         
+    def delete(self,request,pk):
+        item = StreamPlatform.objects.get(pk=pk)
+        item.delete()
+        return Response({"success":"Record Deleted Successfully!"},status.HTTP_301_MOVED_PERMANENTLY)
         
 
 class WatchlistAV(APIView):
