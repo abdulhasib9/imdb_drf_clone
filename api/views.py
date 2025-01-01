@@ -9,13 +9,27 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
+
 
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
+    def get_queryset(self):
+        return Review.objects.all()
+    
     def perform_create(self, serializer):
         pk = self.kwargs['pk']
         movie = Watchlist.objects.get(pk=pk)
-        serializer.save(watchlist=movie)
+        
+        author = self.request.user
+        query_set = Review.objects.filter(watchlist=movie,author=author)
+        
+        if query_set.exists():
+            raise ValidationError("you have already reviewed this movie")
+        
+        
+        
+        serializer.save(watchlist=movie,author=author)
 
 class ReviewList(generics.ListCreateAPIView):
     #queryset = Review.objects.all()
