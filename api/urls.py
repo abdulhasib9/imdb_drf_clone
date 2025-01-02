@@ -9,6 +9,7 @@ urlpatterns = [
     path('platform/<int:pk>/',views.StreamPlatformDetailAV.as_view()),
     path('movie/<int:pk>/review-create/',views.ReviewCreate.as_view()),
     path('movie/<int:pk>/reviews/',views.ReviewList.as_view()),
-    path('review/<int:pk>/',views.ReviewDetail.as_view())
+    path('review/<int:pk>/',views.ReviewDetail.as_view()),
+    path('review-list/',views.ReviewList.as_view())
     
 ]
