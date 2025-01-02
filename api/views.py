@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from .models import Watchlist,StreamPlatform,Review
 from .serializers import WatchlistSerializer,StreamPlatformSerializer,ReviewSerializer
-
+from .permissions import AdminOrReadOnly,AuthorOrReadOnly
 #rest framework imports
 from rest_framework import status
 from rest_framework import mixins
@@ -40,7 +40,7 @@ class ReviewList(generics.ListCreateAPIView):
         return Review.objects.filter(watchlist=pk)
     
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AuthorOrReadOnly]
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     
